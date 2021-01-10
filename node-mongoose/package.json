@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^5.11.10"
+    "mongoose": "^5.11.10",
+    "mongoose-currency": "^0.2.0"
   }
 }
