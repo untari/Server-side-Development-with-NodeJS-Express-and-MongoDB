@@ -40,7 +40,7 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
 
 exports.verifyUser = function (req, res, next) {
       // check header or url parameters or post parameters for token
-    var token = req.body.token | | req.query.token | | req.headers ['x-access-token'];
+    var token = req.body.token || req.query.token || req.headers ['x-access-token'];
     
     //decode token 
     if (token) {
@@ -67,7 +67,7 @@ exports.verifyUser = function (req, res, next) {
 
 exports.verifyAdmin = function (req, res, next) {
     // check header or url parameters or post parameters for token
-    var = req.body.token | | req.query.token | | req.headers ['x-access-token'];
+    var token = req.body.token || req.query.token || req.headers ['x-access-token'];
     
      //decode token 
     if (token) {
