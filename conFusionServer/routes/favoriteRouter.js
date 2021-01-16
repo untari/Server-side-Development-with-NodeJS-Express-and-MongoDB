@@ -87,31 +87,44 @@ favoriteRouter.route('/')
 })
 
 // handles all request 
-favRouter.route('/:dishId')
+favoriteRouter.route('/:dishId')
 .options(cors.corsWithOptions, (req,res) =>{
     res.sendStatus(200);
 })
 // GET
 .get(cors.cors, authenticate.verifyUser, (req,res,next) =>{
-    Favorites.findById(req.params.dishId)
-    .populate('user')
-    .populate('dish')
+    Favorites.findOne({user: req.user._id})
     .then((Favorites) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(Favorites);
+        if (!favorites) {
+            res.statusCode = 403;
+            res.setHeader('Content-Type', 'text/plain');
+            return res.end({'exists': false, 'favorites': favorites});
+        }
+        else {
+            if (favorites.dishes.indexOf(req.params.dishId) < 0) {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                return res.json({"exists": false, "favorites": favorites});
+            }
+            else {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                return res.json({"exists": true, "favorites": favorites});
+            }
+        }
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 // handles POST
 .post(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) =>{
         // check whether this dish has already been added to favorite
-        Favorites.findOne({user: req.user._id}, (err, favorite) =>{
-            if(err){ return next(err); }
+        Favorites.findOne({ user: req.user._id }, (err, favorite) =>{
+            if(err)  return next(err);
+                          
             if(!favorite){
                 Favorites.create({ user: req.user._id})
                 .then((favorite) => {
-                    favorite.dishes.push(req.params.dishId);
+                    favorite.dishes.push({'_id': req.params.dishId});
                     favorite.save()
                     .then((favorite) =>{
                         console.log('favorite Created ', favorite);

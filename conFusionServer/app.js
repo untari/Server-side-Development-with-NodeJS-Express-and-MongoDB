@@ -18,7 +18,6 @@ var uploadRouter = require('./routes/uploadRouter');
 var favoriteRouter = require('./routes/favoriteRouter');
 
 const mongoose = require('mongoose');
-const Dishes = require('./models/dishes');
 
 // Schema import
 const Dishes = require('./models/dishes');

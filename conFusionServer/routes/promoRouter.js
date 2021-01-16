@@ -23,7 +23,7 @@ promoRouter.route('/')
     .catch((err) => next(err));
 })
 .post(cors.corstWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req,res,next)=>{
-    Promotion.create(req.body)
+    Promotion.create(req.query)
     .then((promotions) => {
         console.log('Promotion Created', promotion);
         res.statusCode = 200;
