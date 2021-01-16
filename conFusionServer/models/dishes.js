@@ -10,10 +10,6 @@ const commentSchema = new Schema({
         max: 5,
         required: true
     },
-    comment: {
-        type: String, 
-        required: true
-    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -53,7 +49,6 @@ const dishSchema = new Schema({
         type: Boolean,
         default: false
     },
-    comments: [ commentSchema ]
 },{
     timestamps: true
 });
